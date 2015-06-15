@@ -1,17 +1,42 @@
 package com.example.edwinmperazaduran.simpletodo;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    ArrayList<String> items;
+    ArrayAdapter<String> itemsAdapter;
+    ListView lvItems;
+    EditText etNewItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        lvItems = (ListView) findViewById(R.id.lvItems);
+        etNewItem = (EditText) findViewById(R.id.etNewItem);
+        items = new ArrayList<String>();
+        items.add("First");
+        items.add("Second");
+
+        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, items);
+        lvItems.setAdapter(itemsAdapter);
+        setupListViewListener();
+
+    }
+
+    private void setupListViewListener() {
+
     }
 
     @Override
@@ -34,5 +59,12 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onAddItem(View view) {
+       // EditText etNewItem  = (EditText) findViewById(R.id.etNewItem);
+        String itemText = etNewItem.getText().toString();
+        itemsAdapter.add(itemText);
+        etNewItem.setText("");
     }
 }
