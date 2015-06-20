@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
                 intent.putExtra("item", itemsAdapter.getItem(position));
                 intent.putExtra("pos", position);
-                startActivityForResult(intent, EDIT_ITEM_REQUEST );
+                startActivityForResult(intent, EDIT_ITEM_REQUEST);
             }
         });
     }
@@ -84,13 +84,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void onAddItem(View view) {
-       // EditText etNewItem  = (EditText) findViewById(R.id.etNewItem);
         String itemText = etNewItem.getText().toString();
         itemsAdapter.add(itemText);
         etNewItem.setText("");
         writeItems();
     }
-
 
     private void readItems(){
         File filesDir = getFilesDir(); //Access for special directory for this android app
@@ -112,6 +110,19 @@ public class MainActivity extends ActionBarActivity {
             e.printStackTrace();
         }
     }
+    @Override
+    protected void  onActivityResult (int requestCode, int resultCode, Intent data){
+        if (resultCode == RESULT_OK && requestCode == EDIT_ITEM_REQUEST) {
+            // Extract name value from result extras
+            String item = data.getExtras().getString("item");
+            int pos = data.getExtras().getInt("pos", 0);
+            items.set(pos, item);
+            itemsAdapter.notifyDataSetChanged();
+            writeItems();
+        }
+    };
+
+
 
 
 }
