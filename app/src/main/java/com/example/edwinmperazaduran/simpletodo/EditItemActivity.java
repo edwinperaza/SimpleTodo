@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 
@@ -47,5 +48,14 @@ public class EditItemActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onEditItem(View view) {
+
+        Intent data = new Intent();
+        data.putExtra("item", etEditItem.getText().toString()); //Data edited
+        data.putExtra("pos", pos);
+        setResult(RESULT_OK, data); // bundle data for response
+        finish(); // closes the activity, pass data to parent
     }
 }

@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save_item_label"
-        android:onClick="onAddItem"
+        android:onClick="onEditItem"
         android:id="@+id/btnAddItem"
         android:layout_below="@+id/etEditItem"
         android:layout_alignEnd="@+id/textView" />
