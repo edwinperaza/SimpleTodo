@@ -1,17 +1,30 @@
 package com.example.edwinmperazaduran.simpletodo;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 
 
 public class EditItemActivity extends ActionBarActivity {
+
+    private EditText etEditItem;
+    private String item;
+    private int pos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
+        etEditItem = (EditText) findViewById(R.id.etEditItem);
+        Intent i = getIntent();
+        item     = i.getStringExtra("item");
+        pos      = i.getIntExtra("pos",0); // 0 is default value
+        etEditItem.setText(item);
+        etEditItem.setSelection(item.length()); //Move the cursor
+
     }
 
     @Override

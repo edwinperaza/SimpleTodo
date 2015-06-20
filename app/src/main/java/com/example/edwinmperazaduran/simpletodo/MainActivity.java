@@ -1,5 +1,6 @@
 package com.example.edwinmperazaduran.simpletodo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -23,13 +24,14 @@ public class MainActivity extends ActionBarActivity {
     ArrayAdapter<String> itemsAdapter;
     ListView lvItems;
     EditText etNewItem;
+    private final static int EDIT_ITEM_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lvItems = (ListView) findViewById(R.id.lvItems);
-        etNewItem = (EditText) findViewById(R.id.etNewItem);
+        etNewItem = (EditText) findViewById(R.id.etEditItem);
         readItems();
         itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
@@ -45,6 +47,16 @@ public class MainActivity extends ActionBarActivity {
                 itemsAdapter.notifyDataSetChanged();
                 writeItems();
                 return true;
+            }
+        });
+
+        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
+                intent.putExtra("item", itemsAdapter.getItem(position));
+                intent.putExtra("pos", position);
+                startActivityForResult(intent, EDIT_ITEM_REQUEST );
             }
         });
     }
