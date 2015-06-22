@@ -11,17 +11,15 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
 
-    ArrayList<String> items;
-    ArrayAdapter<String> itemsAdapter;
+    //ArrayList<String> items;
+    ArrayList<TodoItem> items;
+    //TodoItemAdapter itemsAdapter;
+    ArrayAdapter<TodoItem> itemsAdapter;
     ListView lvItems;
     EditText etNewItem;
     private final static int EDIT_ITEM_REQUEST = 1;
@@ -33,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
         lvItems = (ListView) findViewById(R.id.lvItems);
         etNewItem = (EditText) findViewById(R.id.etEditItem);
         readItems();
-        itemsAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, items);
+        itemsAdapter = new TodoItemAdapter(this, android.R.layout.simple_expandable_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
         setupListViewListener();
 
@@ -43,18 +41,24 @@ public class MainActivity extends ActionBarActivity {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
-                items.remove(pos);
+                TodoItem item = items.remove(pos);
+                //items.remove(pos);
                 itemsAdapter.notifyDataSetChanged();
-                writeItems();
+                item.delete();
+                //writeItems();
                 return true;
             }
+
+
+
+
         });
 
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
-                intent.putExtra("item", itemsAdapter.getItem(position));
+                intent.putExtra("item", items.get(position).name);
                 intent.putExtra("pos", position);
                 startActivityForResult(intent, EDIT_ITEM_REQUEST);
             }
@@ -85,23 +89,28 @@ public class MainActivity extends ActionBarActivity {
 
     public void onAddItem(View view) {
         String itemText = etNewItem.getText().toString();
-        itemsAdapter.add(itemText);
-        etNewItem.setText("");
-        writeItems();
+        /*  itemsAdapter.add(itemText);
+            etNewItem.setText("");
+            writeItems();*/
+
+            TodoItem item = new TodoItem(itemText);
+            itemsAdapter.add(item);
+            item.save();
     }
 
     private void readItems(){
-        File filesDir = getFilesDir(); //Access for special directory for this android app
+        /*File filesDir = getFilesDir(); //Access for special directory for this android app
         File todoFile = new File(filesDir, "todo.txt");
         try {
             items = new ArrayList<String>(FileUtils.readLines(todoFile));
         }catch (IOException e){
             items = new ArrayList<String>();
 
-        }
+        }*/
+        items = new ArrayList<TodoItem>(TodoItem.getAll());
     }
 
-    private void writeItems(){
+    /*private void writeItems(){
         File fileDir = getFilesDir();
         File todoFile = new File(fileDir, "todo.txt");
         try{
@@ -109,16 +118,19 @@ public class MainActivity extends ActionBarActivity {
         } catch (IOException e){
             e.printStackTrace();
         }
-    }
+    }*/
     @Override
     protected void  onActivityResult (int requestCode, int resultCode, Intent data){
         if (resultCode == RESULT_OK && requestCode == EDIT_ITEM_REQUEST) {
             // Extract name value from result extras
-            String item = data.getExtras().getString("item");
+            String itemText = data.getExtras().getString("item");
             int pos = data.getExtras().getInt("pos", 0);
-            items.set(pos, item);
+            //items.set(pos, itemText);
+            TodoItem item = items.get(pos);
+            item.name = itemText;
             itemsAdapter.notifyDataSetChanged();
-            writeItems();
+            //writeItems();
+            item.save();
         }
     };
 
