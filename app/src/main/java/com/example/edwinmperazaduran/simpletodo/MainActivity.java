@@ -92,10 +92,11 @@ public class MainActivity extends ActionBarActivity {
         /*  itemsAdapter.add(itemText);
             etNewItem.setText("");
             writeItems();*/
-
+        if (!itemText.trim().isEmpty()) {
             TodoItem item = new TodoItem(itemText);
             itemsAdapter.add(item);
             item.save();
+        }
     }
 
     private void readItems(){
@@ -126,11 +127,13 @@ public class MainActivity extends ActionBarActivity {
             String itemText = data.getExtras().getString("item");
             int pos = data.getExtras().getInt("pos", 0);
             //items.set(pos, itemText);
-            TodoItem item = items.get(pos);
-            item.name = itemText;
-            itemsAdapter.notifyDataSetChanged();
-            //writeItems();
-            item.save();
+            if (!itemText.trim().isEmpty()) {
+                TodoItem item = items.get(pos);
+                item.name = itemText;
+                itemsAdapter.notifyDataSetChanged();
+                //writeItems();
+                item.save();
+            }
         }
     };
 
