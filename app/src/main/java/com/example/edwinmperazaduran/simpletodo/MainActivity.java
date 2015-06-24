@@ -2,7 +2,8 @@ package com.example.edwinmperazaduran.simpletodo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +15,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends FragmentActivity implements EditItemDialog.EditItemDialogListener {
 
     //ArrayList<String> items;
     ArrayList<TodoItem> items;
@@ -34,8 +35,15 @@ public class MainActivity extends ActionBarActivity {
         itemsAdapter = new TodoItemAdapter(this, android.R.layout.simple_expandable_list_item_1, items);
         lvItems.setAdapter(itemsAdapter);
         setupListViewListener();
-
     }
+
+    private void showEditDialog(TodoItem item, Integer pos) {
+        FragmentManager fm = getSupportFragmentManager();
+
+        EditItemDialog editNameDialog = EditItemDialog.newInstance("Edit Item",item, pos);
+        editNameDialog.show(fm, "fragment_edit_name");
+    }
+
 
     private void setupListViewListener() {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -48,19 +56,18 @@ public class MainActivity extends ActionBarActivity {
                 //writeItems();
                 return true;
             }
-
-
-
-
         });
 
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
+                TodoItem item = items.get(position);
+                Integer pos = position;
+                showEditDialog(item, pos);
+                /*Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
                 intent.putExtra("item", items.get(position).name);
                 intent.putExtra("pos", position);
-                startActivityForResult(intent, EDIT_ITEM_REQUEST);
+                startActivityForResult(intent, EDIT_ITEM_REQUEST);*/
             }
         });
     }
@@ -97,6 +104,7 @@ public class MainActivity extends ActionBarActivity {
             itemsAdapter.add(item);
             item.save();
         }
+        etNewItem.setText("");
     }
 
     private void readItems(){
@@ -137,7 +145,14 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-
-
+    @Override
+    public void onEditFinished(int itemPosition, String itemText) {
+        if (!itemText.trim().isEmpty()) {
+            TodoItem item = items.get(itemPosition);
+            item.name = itemText;
+            itemsAdapter.notifyDataSetChanged();
+            item.save();
+        }
+    }
 
 }

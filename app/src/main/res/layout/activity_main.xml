@@ -31,5 +31,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/btnAddItem"
-        android:text="@string/new_item_promtp" />
+        android:hint="@string/new_item_promtp" />
 </RelativeLayout>
