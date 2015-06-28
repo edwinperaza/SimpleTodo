@@ -2,6 +2,7 @@ package com.example.edwinmperazaduran.simpletodo;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
@@ -19,7 +20,8 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 
-public class MainActivity extends FragmentActivity implements EditItemDialog.EditItemDialogListener {
+public class MainActivity extends FragmentActivity implements EditItemDialog.EditItemDialogListener,
+EraseItemDialog.EraseItemDialogListener{
 
     ArrayList<TodoItem> items;
     ArrayAdapter<TodoItem> itemsAdapter;
@@ -28,6 +30,7 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
     private final static int EDIT_ITEM_REQUEST = 1;
     DatePicker datePicker;
     Date dueDate;
+    private int itemPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,18 +47,22 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
 
     private void showEditDialog(TodoItem item, Integer pos) {
         FragmentManager fm = getSupportFragmentManager();
-        EditItemDialog editNameDialog = EditItemDialog.newInstance("Edit Item",item, pos);
-        editNameDialog.show(fm, "fragment_edit_item");
+        EditItemDialog editItemDialog = EditItemDialog.newInstance("Edit Item",item, pos);
+        editItemDialog.show(fm, "fragment_edit_item");
     }
 
+
+    private void showEraseDialog() {
+        DialogFragment fm = new EraseItemDialog();
+        fm.show(getSupportFragmentManager(), "eraseItems");
+    }
 
     private void setupListViewListener() {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
-                TodoItem item = items.remove(pos);
-                itemsAdapter.notifyDataSetChanged();
-                item.delete();
+                itemPosition = pos;
+                showEraseDialog();
                 return true;
             }
         });
@@ -126,7 +133,21 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
     private void hideKeyboard (){
         InputMethodManager imm = (InputMethodManager)getSystemService(
             Context.INPUT_METHOD_SERVICE);
-//txtName is a reference of an EditText Field
-        imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);}
+        imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onDialogClick(boolean b) {
+        if (b){
+            TodoItem item = items.remove(itemPosition);
+            itemsAdapter.notifyDataSetChanged();
+            item.delete();
+        }else{
+            itemPosition = -1;
+        }
+
+
+    }
+
 }
 
