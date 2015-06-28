@@ -22,9 +22,12 @@
         android:id="@+id/btnAddItem"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:textColor="#0000FF"
         android:layout_alignWithParentIfMissing="false"
-        android:layout_alignParentStart="false" />
+        android:layout_alignParentStart="false"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:capitalize="characters"
+        android:textColor="#FF3178FF" />
 
 
     <EditText

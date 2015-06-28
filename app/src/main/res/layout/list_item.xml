@@ -9,7 +9,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=" "
         android:id="@+id/tvTodoItem"
-        android:layout_gravity="center_horizontal|left" />
+        android:layout_gravity="center_horizontal|left"
+        android:textStyle="bold|italic"
+        android:textColor="#ff3178ff"
+        android:textSize="17dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -17,5 +20,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text=" "
         android:id="@+id/tvDueDate"
-        android:layout_gravity="center_horizontal|left" />
+        android:layout_gravity="center_horizontal|left"
+        android:textStyle="italic"
+        android:textSize="14dp" />
 </LinearLayout>

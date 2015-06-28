@@ -20,10 +20,20 @@
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="175dp"
+        android:layout_height="80dp"
         android:layout_marginTop="30dp"
         android:text="@string/button_save"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textColor="#FF3178FF" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/todologo" />
 
 </LinearLayout>
