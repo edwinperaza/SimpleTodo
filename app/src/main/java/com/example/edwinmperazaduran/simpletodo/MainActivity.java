@@ -1,6 +1,5 @@
 package com.example.edwinmperazaduran.simpletodo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -9,10 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 public class MainActivity extends FragmentActivity implements EditItemDialog.EditItemDialogListener {
@@ -24,6 +26,8 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
     ListView lvItems;
     EditText etNewItem;
     private final static int EDIT_ITEM_REQUEST = 1;
+    DatePicker datePicker;
+    Date dueDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,17 +35,17 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
         setContentView(R.layout.activity_main);
         lvItems = (ListView) findViewById(R.id.lvItems);
         etNewItem = (EditText) findViewById(R.id.etEditItem);
+        datePicker = (DatePicker) findViewById(R.id.datePicker);
         readItems();
-        itemsAdapter = new TodoItemAdapter(this, android.R.layout.simple_expandable_list_item_1, items);
+        itemsAdapter = new TodoItemAdapter(this, items);
         lvItems.setAdapter(itemsAdapter);
         setupListViewListener();
     }
 
     private void showEditDialog(TodoItem item, Integer pos) {
         FragmentManager fm = getSupportFragmentManager();
-
         EditItemDialog editNameDialog = EditItemDialog.newInstance("Edit Item",item, pos);
-        editNameDialog.show(fm, "fragment_edit_name");
+        editNameDialog.show(fm, "fragment_edit_item");
     }
 
 
@@ -96,11 +100,14 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
 
     public void onAddItem(View view) {
         String itemText = etNewItem.getText().toString();
+        GregorianCalendar c = new GregorianCalendar(datePicker.getYear(),datePicker.getMonth(),
+                                                    datePicker.getDayOfMonth());
+        dueDate = c.getTime();
         /*  itemsAdapter.add(itemText);
             etNewItem.setText("");
             writeItems();*/
         if (!itemText.trim().isEmpty()) {
-            TodoItem item = new TodoItem(itemText);
+            TodoItem item = new TodoItem(itemText,dueDate);
             itemsAdapter.add(item);
             item.save();
         }
@@ -128,7 +135,7 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
             e.printStackTrace();
         }
     }*/
-    @Override
+   /* @Override
     protected void  onActivityResult (int requestCode, int resultCode, Intent data){
         if (resultCode == RESULT_OK && requestCode == EDIT_ITEM_REQUEST) {
             // Extract name value from result extras
@@ -137,22 +144,22 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
             //items.set(pos, itemText);
             if (!itemText.trim().isEmpty()) {
                 TodoItem item = items.get(pos);
-                item.name = itemText;
+                item.setName(itemText);
                 itemsAdapter.notifyDataSetChanged();
                 //writeItems();
                 item.save();
             }
         }
-    };
+    };*/
 
     @Override
-    public void onEditFinished(int itemPosition, String itemText) {
+    public void onEditFinished(int itemPosition, String itemText, Date dueDate) {
         if (!itemText.trim().isEmpty()) {
             TodoItem item = items.get(itemPosition);
-            item.name = itemText;
+            item.setName(itemText);
+            item.setDueDate(dueDate);
             itemsAdapter.notifyDataSetChanged();
             item.save();
         }
     }
-
 }

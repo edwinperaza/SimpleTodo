@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 /**
@@ -15,38 +16,27 @@ import java.util.ArrayList;
 public class TodoItemAdapter extends ArrayAdapter<TodoItem> {
 
     private Context context;
-    private int textViewResourceId;
+    private static DateFormat df = DateFormat.getDateInstance();
 
-    public TodoItemAdapter(Context context, int textViewResourceId, ArrayList<TodoItem> items) {
-        super(context, textViewResourceId, items);
+    public TodoItemAdapter(Context context, ArrayList<TodoItem> items) {
+        super(context,0, items);
         this.context = context;
-        this.textViewResourceId = textViewResourceId;
     }
 
-
     public View getView(int position, View convertView, ViewGroup parent) {
+        TodoItem item = (TodoItem) getItem(position);
         if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item,null);
+        }
+        TextView itemView = (TextView) convertView.findViewById(R.id.tvTodoItem);
+        TextView dateView = (TextView) convertView.findViewById(R.id.tvDueDate);
 
-            convertView = LayoutInflater.from(getContext()).inflate(textViewResourceId,null);
-        }
-        TodoItem item = (TodoItem) getItem(position);
         if (item != null) {
-            TextView itemView = (TextView) convertView.findViewById(android.R.id.text1);
-            if (itemView != null) {
-                itemView.setText(item.name);
-            }
+                itemView.setText(item.getName());
+                String dateStr = df.format(item.getDueDate());
+                dateView.setText(dateStr);
         }
+        //Log.i("Adapter","Date "+ item.dueDate);
         return convertView;
-
-        /*
-        TodoItem item = (TodoItem) getItem(position);
-        if (item != null) {
-            TextView itemView = (TextView) view.findViewById(android.R.id.text1);
-            if (itemView != null) {
-                itemView.setText(item.name);
-            }
-        }
-
-        return view;*/
     }
 }
