@@ -57,8 +57,6 @@ public class EditItemDialog extends DialogFragment {
         String title = getArguments().getString("title", "Enter Name");
         String edit = getArguments().getString("editText", "NaN");
         dueDate = (Date) getArguments().getSerializable("dueDate");
-        //String editItem = item.name;
-        //dueDate = (Date) item.dueDate;
         getDialog().setTitle(title);
         mEditText.setText(edit);
         mEditText.selectAll();

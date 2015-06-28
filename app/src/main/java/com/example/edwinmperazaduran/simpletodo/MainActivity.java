@@ -1,11 +1,13 @@
 package com.example.edwinmperazaduran.simpletodo;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -19,9 +21,7 @@ import java.util.GregorianCalendar;
 
 public class MainActivity extends FragmentActivity implements EditItemDialog.EditItemDialogListener {
 
-    //ArrayList<String> items;
     ArrayList<TodoItem> items;
-    //TodoItemAdapter itemsAdapter;
     ArrayAdapter<TodoItem> itemsAdapter;
     ListView lvItems;
     EditText etNewItem;
@@ -54,10 +54,8 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int pos, long id) {
                 TodoItem item = items.remove(pos);
-                //items.remove(pos);
                 itemsAdapter.notifyDataSetChanged();
                 item.delete();
-                //writeItems();
                 return true;
             }
         });
@@ -68,10 +66,6 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
                 TodoItem item = items.get(position);
                 Integer pos = position;
                 showEditDialog(item, pos);
-                /*Intent intent = new Intent(MainActivity.this, EditItemActivity.class);
-                intent.putExtra("item", items.get(position).name);
-                intent.putExtra("pos", position);
-                startActivityForResult(intent, EDIT_ITEM_REQUEST);*/
             }
         });
     }
@@ -103,54 +97,19 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
         GregorianCalendar c = new GregorianCalendar(datePicker.getYear(),datePicker.getMonth(),
                                                     datePicker.getDayOfMonth());
         dueDate = c.getTime();
-        /*  itemsAdapter.add(itemText);
-            etNewItem.setText("");
-            writeItems();*/
         if (!itemText.trim().isEmpty()) {
             TodoItem item = new TodoItem(itemText,dueDate);
             itemsAdapter.add(item);
             item.save();
         }
         etNewItem.setText("");
+        hideKeyboard();
+
     }
 
     private void readItems(){
-        /*File filesDir = getFilesDir(); //Access for special directory for this android app
-        File todoFile = new File(filesDir, "todo.txt");
-        try {
-            items = new ArrayList<String>(FileUtils.readLines(todoFile));
-        }catch (IOException e){
-            items = new ArrayList<String>();
-
-        }*/
         items = new ArrayList<TodoItem>(TodoItem.getAll());
     }
-
-    /*private void writeItems(){
-        File fileDir = getFilesDir();
-        File todoFile = new File(fileDir, "todo.txt");
-        try{
-            FileUtils.writeLines(todoFile, items);
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-    }*/
-   /* @Override
-    protected void  onActivityResult (int requestCode, int resultCode, Intent data){
-        if (resultCode == RESULT_OK && requestCode == EDIT_ITEM_REQUEST) {
-            // Extract name value from result extras
-            String itemText = data.getExtras().getString("item");
-            int pos = data.getExtras().getInt("pos", 0);
-            //items.set(pos, itemText);
-            if (!itemText.trim().isEmpty()) {
-                TodoItem item = items.get(pos);
-                item.setName(itemText);
-                itemsAdapter.notifyDataSetChanged();
-                //writeItems();
-                item.save();
-            }
-        }
-    };*/
 
     @Override
     public void onEditFinished(int itemPosition, String itemText, Date dueDate) {
@@ -160,6 +119,14 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
             item.setDueDate(dueDate);
             itemsAdapter.notifyDataSetChanged();
             item.save();
+
         }
     }
+
+    private void hideKeyboard (){
+        InputMethodManager imm = (InputMethodManager)getSystemService(
+            Context.INPUT_METHOD_SERVICE);
+//txtName is a reference of an EditText Field
+        imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);}
 }
+

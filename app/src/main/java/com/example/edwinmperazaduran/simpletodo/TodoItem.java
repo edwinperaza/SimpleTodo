@@ -45,8 +45,8 @@ public class TodoItem extends Model {
             this.dueDate = dueDate;
         }
 
-        public static List<TodoItem> getAll() {
-            return new Select().from(TodoItem.class).orderBy("ID ASC").execute();
-        }
+    public static List<TodoItem> getAll() {
+        return new Select().from(TodoItem.class).orderBy("ID ASC").execute();
+    }
 
 }

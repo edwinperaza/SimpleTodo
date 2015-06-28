@@ -36,7 +36,6 @@ public class TodoItemAdapter extends ArrayAdapter<TodoItem> {
                 String dateStr = df.format(item.getDueDate());
                 dateView.setText(dateStr);
         }
-        //Log.i("Adapter","Date "+ item.dueDate);
         return convertView;
     }
 }
