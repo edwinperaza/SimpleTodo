@@ -46,7 +46,7 @@ public class TodoItem extends Model {
         }
 
     public static List<TodoItem> getAll() {
-        return new Select().from(TodoItem.class).orderBy("ID ASC").execute();
+        return new Select().from(TodoItem.class).orderBy("DueDate ASC").execute();
     }
 
 }
