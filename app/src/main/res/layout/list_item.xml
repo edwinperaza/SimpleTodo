@@ -14,13 +14,40 @@
         android:textColor="#ff3178ff"
         android:textSize="17dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text=" "
-        android:id="@+id/tvDueDate"
-        android:layout_gravity="center_horizontal|left"
-        android:textStyle="italic"
-        android:textSize="14dp" />
+        android:layout_gravity="center_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=" "
+            android:id="@+id/tvDueDate"
+            android:layout_gravity="center_horizontal|left"
+            android:textStyle="italic"
+            android:textSize="13dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_priority"
+            android:textStyle="bold"
+            android:textSize="14dp"
+            android:id="@+id/txt_priority"
+            android:layout_gravity="center_horizontal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text=" "
+            android:id="@+id/tvPriority"
+            android:layout_gravity="center_horizontal|left"
+            android:textStyle="italic"
+            android:textSize="13dp" />
+    </LinearLayout>
+
 </LinearLayout>

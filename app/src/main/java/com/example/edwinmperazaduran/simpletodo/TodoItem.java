@@ -5,9 +5,10 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
-//import java.util.Date;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
+//import java.util.Date;
 
 /**
  * Created by edwinmperazaduran on 21/6/15.
@@ -18,8 +19,11 @@ public class TodoItem extends Model {
         public String name;
         @Column(name = "DueDate")
         public Date dueDate;
+        @Column(name = "Priority")
+        public String priority;
 
-        public TodoItem() {
+
+    public TodoItem() {
             super();
         }
 
@@ -39,10 +43,19 @@ public class TodoItem extends Model {
         return dueDate;
     }
 
-    public TodoItem(String name, Date dueDate) {
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public TodoItem(String name, Date dueDate, String priority) {
             super();
             this.name = name;
             this.dueDate = dueDate;
+            this.priority = priority;
         }
 
     public static List<TodoItem> getAll() {

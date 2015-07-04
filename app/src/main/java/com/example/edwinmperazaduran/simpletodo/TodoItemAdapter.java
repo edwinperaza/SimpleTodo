@@ -30,11 +30,13 @@ public class TodoItemAdapter extends ArrayAdapter<TodoItem> {
         }
         TextView itemView = (TextView) convertView.findViewById(R.id.tvTodoItem);
         TextView dateView = (TextView) convertView.findViewById(R.id.tvDueDate);
+        TextView priorityView = (TextView) convertView.findViewById(R.id.tvPriority);
 
         if (item != null) {
                 itemView.setText(item.getName());
                 String dateStr = df.format(item.getDueDate());
-                dateView.setText(dateStr);
+                dateView.setText(dateStr+" ");
+                priorityView.setText(" "+item.getPriority());
         }
         return convertView;
     }

@@ -6,13 +6,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import static android.widget.AdapterView.OnItemSelectedListener;
 
 /**
  * Created by edwinmperazaduran on 24/6/15.
@@ -24,9 +29,11 @@ public class EditItemDialog extends DialogFragment {
     private DatePicker datePicker;
     private Date dueDate;
     private TodoItem item;
+    private Spinner sp_priority;
+    private String priority;
 
     public interface EditItemDialogListener {
-        void onEditFinished(int itemPosition, String itemText, Date datePicker);
+        void onEditFinished(int itemPosition, String itemText, Date datePicker, String priority);
     }
 
     public EditItemDialog() {
@@ -38,6 +45,7 @@ public class EditItemDialog extends DialogFragment {
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("editText", editItem.getName());
+        args.putString("priority", editItem.getPriority());
         args.putInt("position", itemPos);
         args.putSerializable("dueDate", editItem.getDueDate());
         //args.putSerializable("editItem", (Serializable) editItem);
@@ -60,6 +68,20 @@ public class EditItemDialog extends DialogFragment {
         getDialog().setTitle(title);
         mEditText.setText(edit);
         mEditText.selectAll();
+
+        sp_priority = (Spinner) view.findViewById(R.id.sp_priority_edit);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
+                 R.array.sp_priority_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        sp_priority.setAdapter(adapter);
+        sp_priority.setSelection(adapter.getPosition(getArguments().getString("priority")));
+        setupSpSpinnerListener();
+
+
+
         // Show soft keyboard automatically
         mEditText.requestFocus();
         //datePicker.
@@ -70,6 +92,8 @@ public class EditItemDialog extends DialogFragment {
                     c.get(Calendar.DATE));
 
         }
+
+
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
@@ -82,6 +106,23 @@ public class EditItemDialog extends DialogFragment {
         return view;
     }
 
+    public void setupSpSpinnerListener (){
+        sp_priority.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                priority = parent.getItemAtPosition(position).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+
+    }
 
     public void finishEditing(View v) {
         boolean isEmpty = mEditText.getText().toString().trim().isEmpty();
@@ -97,7 +138,11 @@ public class EditItemDialog extends DialogFragment {
         String itemText = mEditText.getText().toString();
         Integer itemPosition = getArguments().getInt("position");
         EditItemDialogListener listener = (EditItemDialogListener)getActivity();
-        listener.onEditFinished(itemPosition, itemText, dueDate);
+        listener.onEditFinished(itemPosition, itemText, dueDate, priority);
         dismiss();
     }
+
+
+
+
 }

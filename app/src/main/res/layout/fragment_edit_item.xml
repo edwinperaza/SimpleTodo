@@ -18,6 +18,13 @@
         android:datePickerMode="spinner"
         android:calendarViewShown="false" />
 
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sp_priority_edit"
+        android:layout_gravity="center_horizontal"
+        android:spinnerMode="dropdown" />
+
     <Button
         android:id="@+id/btnSave"
         android:layout_width="175dp"
@@ -30,8 +37,8 @@
         android:textColor="#FF3178FF" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="333dp"
+        android:layout_height="197dp"
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/todologo" />

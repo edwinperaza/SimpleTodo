@@ -105,13 +105,14 @@ EraseItemDialog.EraseItemDialogListener{
                                                     datePicker.getDayOfMonth());
         dueDate = c.getTime();
         if (!itemText.trim().isEmpty()) {
-            TodoItem item = new TodoItem(itemText,dueDate);
-            itemsAdapter.add(item);
+            TodoItem item = new TodoItem(itemText,dueDate,"Low");
             item.save();
+            items.clear();
+            items.addAll(TodoItem.getAll());
+            itemsAdapter.notifyDataSetChanged();
         }
         etNewItem.setText("");
         hideKeyboard();
-
     }
 
     private void readItems(){
@@ -119,11 +120,12 @@ EraseItemDialog.EraseItemDialogListener{
     }
 
     @Override
-    public void onEditFinished(int itemPosition, String itemText, Date dueDate) {
+    public void onEditFinished(int itemPosition, String itemText, Date dueDate, String priority) {
         if (!itemText.trim().isEmpty()) {
             TodoItem item = items.get(itemPosition);
             item.setName(itemText);
             item.setDueDate(dueDate);
+            item.setPriority(priority);
             itemsAdapter.notifyDataSetChanged();
             item.save();
 
