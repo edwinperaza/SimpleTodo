@@ -35,8 +35,8 @@ public class TodoItemAdapter extends ArrayAdapter<TodoItem> {
         if (item != null) {
                 itemView.setText(item.getName());
                 String dateStr = df.format(item.getDueDate());
-                dateView.setText(dateStr+" ");
-                priorityView.setText(" "+item.getPriority());
+                dateView.setText(dateStr);
+                priorityView.setText(item.getPriority());
         }
         return convertView;
     }

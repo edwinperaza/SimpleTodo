@@ -26,22 +26,4 @@
         android:capitalize="characters"
         android:textColor="#FF3178FF" />
 
-
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/etEditItem"
-        android:hint="@string/new_item_promtp"
-        android:layout_above="@+id/datePicker"
-        android:layout_alignParentEnd="true" />
-
-    <DatePicker
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/datePicker"
-        android:datePickerMode="spinner"
-        android:calendarViewShown="false"
-        android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/btnAddItem" />
-
 </RelativeLayout>

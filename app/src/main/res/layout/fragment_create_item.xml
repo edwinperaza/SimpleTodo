@@ -7,7 +7,7 @@
     <EditText
         android:layout_width="227dp"
         android:layout_height="wrap_content"
-        android:id="@+id/etEditItem"
+        android:id="@+id/etCreateItem"
         android:layout_gravity="center_horizontal" />
 
 
@@ -21,7 +21,7 @@
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/sp_priority_edit"
+        android:id="@+id/sp_priority_create"
         android:layout_gravity="center_horizontal"
         android:spinnerMode="dropdown" />
 
@@ -38,7 +38,7 @@
 
     <ImageView
         android:layout_width="158dp"
-        android:layout_height="93dp"
+        android:layout_height="92dp"
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/todologo" />

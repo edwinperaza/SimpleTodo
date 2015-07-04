@@ -17,11 +17,10 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 
 public class MainActivity extends FragmentActivity implements EditItemDialog.EditItemDialogListener,
-EraseItemDialog.EraseItemDialogListener{
+EraseItemDialog.EraseItemDialogListener, CreateItemDialog.CreateItemDialogListener{
 
     ArrayList<TodoItem> items;
     ArrayAdapter<TodoItem> itemsAdapter;
@@ -55,6 +54,12 @@ EraseItemDialog.EraseItemDialogListener{
     private void showEraseDialog() {
         DialogFragment fm = new EraseItemDialog();
         fm.show(getSupportFragmentManager(), "eraseItems");
+    }
+
+    private void showCreateDialog(){
+        FragmentManager fm = getSupportFragmentManager();
+        CreateItemDialog createItemDialog = CreateItemDialog.newInstance("Create Item");
+        createItemDialog.show(fm, "fragment_create_item");
     }
 
     private void setupListViewListener() {
@@ -100,7 +105,7 @@ EraseItemDialog.EraseItemDialogListener{
     }
 
     public void onAddItem(View view) {
-        String itemText = etNewItem.getText().toString();
+       /* String itemText = etNewItem.getText().toString();
         GregorianCalendar c = new GregorianCalendar(datePicker.getYear(),datePicker.getMonth(),
                                                     datePicker.getDayOfMonth());
         dueDate = c.getTime();
@@ -112,7 +117,9 @@ EraseItemDialog.EraseItemDialogListener{
             itemsAdapter.notifyDataSetChanged();
         }
         etNewItem.setText("");
-        hideKeyboard();
+        hideKeyboard();*/
+
+        showCreateDialog();
     }
 
     private void readItems(){
@@ -128,6 +135,21 @@ EraseItemDialog.EraseItemDialogListener{
             item.setPriority(priority);
             itemsAdapter.notifyDataSetChanged();
             item.save();
+
+        }
+    }
+    @Override
+    public void onCreateFinished(String itemText, Date datePicker, String priority){
+        if (!itemText.trim().isEmpty()) {
+            TodoItem item = new TodoItem(itemText, datePicker, priority);
+            item.save();
+          /*  item.setName(itemText);
+            item.setDueDate(datePicker);
+            item.setPriority(priority);
+          //  Log.i("Date: ", datePicker.toString());*/
+            items.clear();
+            items.addAll(TodoItem.getAll());
+            itemsAdapter.notifyDataSetChanged();
 
         }
     }
@@ -147,8 +169,6 @@ EraseItemDialog.EraseItemDialogListener{
         }else{
             itemPosition = -1;
         }
-
-
     }
 
 }

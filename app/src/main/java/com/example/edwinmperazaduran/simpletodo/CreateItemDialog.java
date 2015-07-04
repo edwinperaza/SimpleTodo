@@ -13,7 +13,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -22,9 +21,9 @@ import static android.widget.AdapterView.OnItemSelectedListener;
 /**
  * Created by edwinmperazaduran on 24/6/15.
  */
-public class EditItemDialog extends DialogFragment {
+public class CreateItemDialog extends DialogFragment {
 
-    private EditText mEditText;
+    private EditText mCreateText;
     private Button btnSave;
     private DatePicker datePicker;
     private Date dueDate;
@@ -32,23 +31,18 @@ public class EditItemDialog extends DialogFragment {
     private Spinner sp_priority;
     private String priority;
 
-    public interface EditItemDialogListener {
-        void onEditFinished(int itemPosition, String itemText, Date datePicker, String priority);
+    public interface CreateItemDialogListener {
+        void onCreateFinished(String itemText, Date datePicker, String priority);
     }
 
-    public EditItemDialog() {
+    public CreateItemDialog() {
         // Empty constructor required for DialogFragment
     }
 
-    public static EditItemDialog newInstance(String title, TodoItem editItem, Integer itemPos) {
-        EditItemDialog frag = new EditItemDialog();
+    public static CreateItemDialog newInstance(String title) {
+        CreateItemDialog frag = new CreateItemDialog();
         Bundle args = new Bundle();
         args.putString("title", title);
-        args.putString("editText", editItem.getName());
-        args.putString("priority", editItem.getPriority());
-        args.putInt("position", itemPos);
-        args.putSerializable("dueDate", editItem.getDueDate());
-        //args.putSerializable("editItem", (Serializable) editItem);
         frag.setArguments(args);
         return frag;
     }
@@ -56,51 +50,29 @@ public class EditItemDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_edit_item, container);
+        View view = inflater.inflate(R.layout.fragment_create_item, container);
 
-        mEditText = (EditText) view.findViewById(R.id.etEditItem);
+        mCreateText = (EditText) view.findViewById(R.id.etCreateItem);
         btnSave = (Button) view.findViewById(R.id.btnSave);
         datePicker = (DatePicker) view.findViewById(R.id.datePicker);
-        //item = (TodoItem) getArguments().getSerializable("editItem");
-        String title = getArguments().getString("title", "Enter Name");
-        String edit = getArguments().getString("editText", "NaN");
-        dueDate = (Date) getArguments().getSerializable("dueDate");
-        getDialog().setTitle(title);
-        mEditText.setText(edit);
-        mEditText.selectAll();
+        sp_priority = (Spinner) view.findViewById(R.id.sp_priority_create);
 
-        sp_priority = (Spinner) view.findViewById(R.id.sp_priority_edit);
-        // Create an ArrayAdapter using the string array and a default spinner layout
+        String title = getArguments().getString("title", "Enter Name");
+        getDialog().setTitle(title);
+        mCreateText.requestFocus();
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
                  R.array.sp_priority_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         sp_priority.setAdapter(adapter);
-        sp_priority.setSelection(adapter.getPosition(getArguments().getString("priority")));
         setupSpSpinnerListener();
-
-
-
-        // Show soft keyboard automatically
-        mEditText.requestFocus();
-        //datePicker.
-        if (dueDate != null) {
-            GregorianCalendar c = new GregorianCalendar();
-            c.setTime(dueDate);
-            datePicker.updateDate(c.get(Calendar.YEAR), c.get(Calendar.MONTH),
-                    c.get(Calendar.DATE));
-
-        }
-
 
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finishEditing(v);
+                finishCreating(v);
             }
         });
         return view;
@@ -112,7 +84,6 @@ public class EditItemDialog extends DialogFragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 priority = parent.getItemAtPosition(position).toString();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -120,21 +91,18 @@ public class EditItemDialog extends DialogFragment {
         });
     }
 
-    public void finishEditing(View v) {
-        boolean isEmpty = mEditText.getText().toString().trim().isEmpty();
+    public void finishCreating(View v) {
+        boolean isEmpty = mCreateText.getText().toString().trim().isEmpty();
         if (isEmpty) {
             dismiss();
             return;
         }
-        if (dueDate != null){
-            GregorianCalendar c = new GregorianCalendar(datePicker.getYear(),
+        GregorianCalendar c = new GregorianCalendar(datePicker.getYear(),
                     datePicker.getMonth(), datePicker.getDayOfMonth());
-            dueDate = c.getTime();
-        }
-        String itemText = mEditText.getText().toString();
-        Integer itemPosition = getArguments().getInt("position");
-        EditItemDialogListener listener = (EditItemDialogListener)getActivity();
-        listener.onEditFinished(itemPosition, itemText, dueDate, priority);
+        dueDate = c.getTime();
+        String itemText = mCreateText.getText().toString();
+        CreateItemDialogListener listener = (CreateItemDialogListener)getActivity();
+        listener.onCreateFinished(itemText, dueDate, priority);
         dismiss();
     }
 
