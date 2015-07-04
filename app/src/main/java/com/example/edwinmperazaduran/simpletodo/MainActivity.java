@@ -50,7 +50,6 @@ EraseItemDialog.EraseItemDialogListener, CreateItemDialog.CreateItemDialogListen
         editItemDialog.show(fm, "fragment_edit_item");
     }
 
-
     private void showEraseDialog() {
         DialogFragment fm = new EraseItemDialog();
         fm.show(getSupportFragmentManager(), "eraseItems");
@@ -58,7 +57,7 @@ EraseItemDialog.EraseItemDialogListener, CreateItemDialog.CreateItemDialogListen
 
     private void showCreateDialog(){
         FragmentManager fm = getSupportFragmentManager();
-        CreateItemDialog createItemDialog = CreateItemDialog.newInstance("Create Item");
+        CreateItemDialog createItemDialog = CreateItemDialog.newInstance("Create Task");
         createItemDialog.show(fm, "fragment_create_item");
     }
 
@@ -105,20 +104,6 @@ EraseItemDialog.EraseItemDialogListener, CreateItemDialog.CreateItemDialogListen
     }
 
     public void onAddItem(View view) {
-       /* String itemText = etNewItem.getText().toString();
-        GregorianCalendar c = new GregorianCalendar(datePicker.getYear(),datePicker.getMonth(),
-                                                    datePicker.getDayOfMonth());
-        dueDate = c.getTime();
-        if (!itemText.trim().isEmpty()) {
-            TodoItem item = new TodoItem(itemText,dueDate,"Low");
-            item.save();
-            items.clear();
-            items.addAll(TodoItem.getAll());
-            itemsAdapter.notifyDataSetChanged();
-        }
-        etNewItem.setText("");
-        hideKeyboard();*/
-
         showCreateDialog();
     }
 
@@ -135,7 +120,6 @@ EraseItemDialog.EraseItemDialogListener, CreateItemDialog.CreateItemDialogListen
             item.setPriority(priority);
             itemsAdapter.notifyDataSetChanged();
             item.save();
-
         }
     }
     @Override
@@ -143,10 +127,6 @@ EraseItemDialog.EraseItemDialogListener, CreateItemDialog.CreateItemDialogListen
         if (!itemText.trim().isEmpty()) {
             TodoItem item = new TodoItem(itemText, datePicker, priority);
             item.save();
-          /*  item.setName(itemText);
-            item.setDueDate(datePicker);
-            item.setPriority(priority);
-          //  Log.i("Date: ", datePicker.toString());*/
             items.clear();
             items.addAll(TodoItem.getAll());
             itemsAdapter.notifyDataSetChanged();

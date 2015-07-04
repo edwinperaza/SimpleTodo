@@ -4,12 +4,29 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/tv_create_item_title"
+        android:id="@+id/textView3"
+        android:layout_gravity="center_horizontal|left" />
+
     <EditText
-        android:layout_width="227dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/etCreateItem"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal|left"
+        android:hint="@string/tv_create_item_title_hint" />
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/tv_create_item_duedate"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal|left" />
 
     <DatePicker
         android:layout_width="match_parent"
@@ -17,6 +34,14 @@
         android:id="@+id/datePicker"
         android:datePickerMode="spinner"
         android:calendarViewShown="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/tv_create_item_priority"
+        android:id="@+id/textView4"
+        android:layout_gravity="center_horizontal|left" />
 
     <Spinner
         android:layout_width="match_parent"
@@ -27,20 +52,16 @@
 
     <Button
         android:id="@+id/btnSave"
-        android:layout_width="175dp"
-        android:layout_height="80dp"
+        android:layout_width="91dp"
+        android:layout_height="38dp"
         android:layout_marginTop="30dp"
         android:text="@string/button_save"
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"
-        android:textSize="20dp"
-        android:textColor="#FF3178FF" />
-
-    <ImageView
-        android:layout_width="158dp"
-        android:layout_height="92dp"
-        android:id="@+id/imageView"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/todologo" />
+        android:textSize="20sp"
+        android:textColor="#FFFFFFFF"
+        style="@style/ButtonText"
+        android:background="@drawable/btn_blue_glossy"
+         />
 
 </LinearLayout>
