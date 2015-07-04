@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvDueMonth"
             android:paddingRight="10dp"
-            android:textSize="32dp"
+            android:textSize="28dp"
             android:text="Month"
             android:textAlignment="center"
             android:textColor="#FF707070"

@@ -19,6 +19,7 @@
     <string name="tv_create_item_duedate">Due Date</string>
     <string name="tv_create_item_priority">Priority</string>
     <string name="tv_create_item_title_hint">Add a title</string>
+    <string name="button_edit">Edit</string>
 
 
 </resources>
