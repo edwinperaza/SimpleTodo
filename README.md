@@ -19,7 +19,7 @@ Completed user stories:
  * [x] Additional: the list is sorted by date
 
 
-Walkthrough of all user stories:
+# Walkthrough of all user stories:
 
 ![Video Walkthrough](Todosimpleapp.gif)
 
