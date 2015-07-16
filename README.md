@@ -15,11 +15,18 @@ Completed user stories:
  * [x] Additional: Add support for selecting the priority of each todo item (and display in listview item)
  * [x] Additional: Improve the UI/UX (Colors, imagen, style)
  * [x] Additional: Use a DialogFragment for adding todo items
- * [x] Additional: Confirm when an user erase an item using an Alert Dialog
+ * [x] Additional: Confirm when an user erase an item using [SweetAlertDialog](https://github.com/pedant/sweet-alert-dialog) (Updated)
  * [x] Additional: the list is sorted by date
+ * [x] Additional: Show an AlertDialog when an user create a new item using [SweetAlertDialog](https://github.com/pedant/sweet-alert-dialog)
 
 ## Walkthrough of all user stories:
 
 ![Video Walkthrough](Todosimpleapp.gif)
+
+## Walkthrough of all user stories with sweetAlertDialog:
+![Video Walkthrough](TodosimpleappV2.gif)
+
+## Third-party Libraries
+[SweetAlertDialog](https://github.com/pedant/sweet-alert-dialog): SweetAlert for Android, a beautiful and clever alert dialog
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
