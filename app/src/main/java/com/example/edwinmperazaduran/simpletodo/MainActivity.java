@@ -2,7 +2,6 @@ package com.example.edwinmperazaduran.simpletodo;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.Menu;
@@ -18,9 +17,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.Date;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 
 public class MainActivity extends FragmentActivity implements EditItemDialog.EditItemDialogListener,
-EraseItemDialog.EraseItemDialogListener, CreateItemDialog.CreateItemDialogListener{
+        CreateItemDialog.CreateItemDialogListener{
 
     ArrayList<TodoItem> items;
     ArrayAdapter<TodoItem> itemsAdapter;
@@ -44,15 +45,43 @@ EraseItemDialog.EraseItemDialogListener, CreateItemDialog.CreateItemDialogListen
         setupListViewListener();
     }
 
+    private void showSuccessdialog(){
+        SweetAlertDialog pDialog = new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE);
+        pDialog.setTitleText("Good job!")
+                .setContentText("Your To Do Item has been saved!")
+                .show();
+    }
+
+    public void eraseItem(){
+        TodoItem item = items.remove(itemPosition);
+        itemsAdapter.notifyDataSetChanged();
+        item.delete();
+
+    }
+    private void showEraseDialog(){
+        new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Are you sure?")
+                .setContentText("Won't be able to recover this Item!")
+                .setConfirmText("Yes,delete it!")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog
+                                .setTitleText("Deleted!")
+                                .setContentText("Your Item has been deleted!")
+                                .setConfirmText("OK")
+                                .setConfirmClickListener(null)
+                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                        eraseItem();
+                    }
+                })
+                .show();
+    }
+
     private void showEditDialog(TodoItem item, Integer pos) {
         FragmentManager fm = getSupportFragmentManager();
         EditItemDialog editItemDialog = EditItemDialog.newInstance("Edit Item",item, pos);
         editItemDialog.show(fm, "fragment_edit_item");
-    }
-
-    private void showEraseDialog() {
-        DialogFragment fm = new EraseItemDialog();
-        fm.show(getSupportFragmentManager(), "eraseItems");
     }
 
     private void showCreateDialog(){
@@ -130,7 +159,7 @@ EraseItemDialog.EraseItemDialogListener, CreateItemDialog.CreateItemDialogListen
             items.clear();
             items.addAll(TodoItem.getAll());
             itemsAdapter.notifyDataSetChanged();
-
+            showSuccessdialog();
         }
     }
 
@@ -138,17 +167,6 @@ EraseItemDialog.EraseItemDialogListener, CreateItemDialog.CreateItemDialogListen
         InputMethodManager imm = (InputMethodManager)getSystemService(
             Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etNewItem.getWindowToken(), 0);
-    }
-
-    @Override
-    public void onDialogClick(boolean b) {
-        if (b){
-            TodoItem item = items.remove(itemPosition);
-            itemsAdapter.notifyDataSetChanged();
-            item.delete();
-        }else{
-            itemPosition = -1;
-        }
     }
 
 }
