@@ -18,7 +18,6 @@ Completed user stories:
  * [x] Additional: Confirm when an user erase an item using an Alert Dialog
  * [x] Additional: the list is sorted by date
 
-
 ## Walkthrough of all user stories:
 
 ![Video Walkthrough](Todosimpleapp.gif)
