@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 /**
- * Created by edwinmperazaduran on 21/6/15.
+ * TodoItem Array adapter
  */
 public class TodoItemAdapter extends ArrayAdapter<TodoItem> {
 

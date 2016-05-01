@@ -19,7 +19,7 @@ import java.util.GregorianCalendar;
 import static android.widget.AdapterView.OnItemSelectedListener;
 
 /**
- * Created by edwinmperazaduran on 24/6/15.
+ * Dialog Fragment to create an Item in the ToDo list.
  */
 public class CreateItemDialog extends DialogFragment {
 
@@ -35,9 +35,7 @@ public class CreateItemDialog extends DialogFragment {
         void onCreateFinished(String itemText, Date datePicker, String priority);
     }
 
-    public CreateItemDialog() {
-        // Empty constructor required for DialogFragment
-    }
+    public CreateItemDialog() {}
 
     public static CreateItemDialog newInstance(String title) {
         CreateItemDialog frag = new CreateItemDialog();
@@ -105,5 +103,4 @@ public class CreateItemDialog extends DialogFragment {
         listener.onCreateFinished(itemText, dueDate, priority);
         dismiss();
     }
-
 }

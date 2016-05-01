@@ -19,7 +19,6 @@ import java.util.Date;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-
 public class MainActivity extends FragmentActivity implements EditItemDialog.EditItemDialogListener,
         CreateItemDialog.CreateItemDialogListener{
 
@@ -58,6 +57,7 @@ public class MainActivity extends FragmentActivity implements EditItemDialog.Edi
         item.delete();
 
     }
+
     private void showEraseDialog(){
         new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText("Are you sure?")

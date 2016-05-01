@@ -8,24 +8,23 @@ import com.activeandroid.query.Select;
 import java.util.Date;
 import java.util.List;
 
-//import java.util.Date;
-
 /**
- * Created by edwinmperazaduran on 21/6/15.
+ * TodoItem Model
  */
 @Table(name = "TodoItems")
 public class TodoItem extends Model {
-        @Column(name = "Name")
-        public String name;
-        @Column(name = "DueDate")
-        public Date dueDate;
-        @Column(name = "Priority")
-        public String priority;
+
+    @Column(name = "Name")
+    public String name;
+    @Column(name = "DueDate")
+    public Date dueDate;
+    @Column(name = "Priority")
+    public String priority;
 
 
     public TodoItem() {
             super();
-        }
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -56,10 +55,9 @@ public class TodoItem extends Model {
             this.name = name;
             this.dueDate = dueDate;
             this.priority = priority;
-        }
+    }
 
     public static List<TodoItem> getAll() {
         return new Select().from(TodoItem.class).orderBy("DueDate ASC").execute();
     }
-
 }

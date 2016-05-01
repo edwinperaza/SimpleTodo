@@ -1,12 +1,14 @@
 package com.example.edwinmperazaduran.simpletodo;
 
-
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 
+/**
+ * Dialog Fragment to verify if an user want to erase an Item from the ToDo list.
+ */
 public class EraseItemDialog extends DialogFragment {
 
     public interface EraseItemDialogListener {
@@ -30,7 +32,6 @@ public class EraseItemDialog extends DialogFragment {
                         listener.onDialogClick(false);
                     }
                 });
-        //dismiss();
         return builder.create();
     }
 }

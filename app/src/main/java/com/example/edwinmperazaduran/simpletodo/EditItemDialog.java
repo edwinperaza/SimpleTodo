@@ -20,7 +20,7 @@ import java.util.GregorianCalendar;
 import static android.widget.AdapterView.OnItemSelectedListener;
 
 /**
- * Created by edwinmperazaduran on 24/6/15.
+ * Dialog Fragment to verify if an user want to edit an Item from the ToDo list.
  */
 public class EditItemDialog extends DialogFragment {
 
@@ -36,9 +36,7 @@ public class EditItemDialog extends DialogFragment {
         void onEditFinished(int itemPosition, String itemText, Date datePicker, String priority);
     }
 
-    public EditItemDialog() {
-        // Empty constructor required for DialogFragment
-    }
+    public EditItemDialog() {}
 
     public static EditItemDialog newInstance(String title, TodoItem editItem, Integer itemPos) {
         EditItemDialog frag = new EditItemDialog();
@@ -48,7 +46,6 @@ public class EditItemDialog extends DialogFragment {
         args.putString("priority", editItem.getPriority());
         args.putInt("position", itemPos);
         args.putSerializable("dueDate", editItem.getDueDate());
-        //args.putSerializable("editItem", (Serializable) editItem);
         frag.setArguments(args);
         return frag;
     }
@@ -61,7 +58,6 @@ public class EditItemDialog extends DialogFragment {
         mEditText = (EditText) view.findViewById(R.id.etEditItem);
         btnSave = (Button) view.findViewById(R.id.btnSave);
         datePicker = (DatePicker) view.findViewById(R.id.datePicker);
-        //item = (TodoItem) getArguments().getSerializable("editItem");
         String title = getArguments().getString("title", "Enter Name");
         String edit = getArguments().getString("editText", "NaN");
         dueDate = (Date) getArguments().getSerializable("dueDate");
@@ -70,21 +66,14 @@ public class EditItemDialog extends DialogFragment {
         mEditText.selectAll();
 
         sp_priority = (Spinner) view.findViewById(R.id.sp_priority_edit);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(view.getContext(),
                  R.array.sp_priority_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         sp_priority.setAdapter(adapter);
         sp_priority.setSelection(adapter.getPosition(getArguments().getString("priority")));
         setupSpSpinnerListener();
 
-
-
-        // Show soft keyboard automatically
         mEditText.requestFocus();
-        //datePicker.
         if (dueDate != null) {
             GregorianCalendar c = new GregorianCalendar();
             c.setTime(dueDate);
@@ -93,10 +82,8 @@ public class EditItemDialog extends DialogFragment {
 
         }
 
-
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,7 +102,6 @@ public class EditItemDialog extends DialogFragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -137,5 +123,4 @@ public class EditItemDialog extends DialogFragment {
         listener.onEditFinished(itemPosition, itemText, dueDate, priority);
         dismiss();
     }
-
 }
