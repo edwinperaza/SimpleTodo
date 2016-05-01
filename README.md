@@ -1,7 +1,7 @@
 #ToDoList 
-<p align="center">
+
 ![Logo](TodoListLogo.png)
-</p>
+
 > What's ToDoList?
 
 This is a *To do list app* that helps individuals achieve their goals.
